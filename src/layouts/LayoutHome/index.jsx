@@ -1,17 +1,21 @@
 import { Avatar, Button, Collapse, Dropdown, Layout } from "antd"
 import { Content, Header } from "antd/es/layout/layout"
-import { Fragment } from "react"
+import { Fragment, useContext, useRef } from "react"
 import { UserOutlined } from '@ant-design/icons';
 
 import "../LayoutHome/index.scss"
 import LogoApp from "../../component/LogoApp";
 import Sider from "antd/es/layout/Sider";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
+import { AppContext } from "../../context/app-context";
 
 const LayoutHome = ({ children }) => {
     const [, , removeCookie] = useCookies(['user']);
     const navigator = useNavigate()
+
+     const { company } = useContext(AppContext)
+    
 
     const listRoute = [
         {
@@ -35,24 +39,26 @@ const LayoutHome = ({ children }) => {
     return (
         <Fragment>
             <Layout className="layout-home">
-                <Sider width="240px" className="sider border-r border-gray-300 text-xl">
-                    <div className="flex justify-center items-center h-[69px] border-b border-gray-300">
-                        <p className="text-2xl font-bold">LOGO KH</p>
-                    </div>
+                { company && 
+                    <Sider width="240px" className="sider border-r border-gray-300 text-xl">
+                        <div className="flex justify-center items-center h-[69px] border-b border-gray-300">
+                            <p className="text-2xl font-bold">LOGO KH</p>
+                        </div>
 
-                    <div className="p-2">
-                        <Collapse
-                            headerPadding="2px"
-                            contentPadding="2px"
-                            headerBg="#FFF"
-                            collapsible="header"
-                            bordered={false}
-                            expandIconPosition="end"
-                            defaultActiveKey={['company']}
-                            items={listRoute}
-                        />
-                    </div>
-                </Sider>
+                        <div className="p-2">
+                            <Collapse
+                                headerPadding="2px"
+                                contentPadding="2px"
+                                headerBg="#FFF"
+                                collapsible="header"
+                                bordered={false}
+                                expandIconPosition="end"
+                                defaultActiveKey={['company']}
+                                items={listRoute}
+                            />
+                        </div>
+                    </Sider>
+                }
                 <Layout>
                     <Header className="header border-b border-gray-300 relative">
                         <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" >

@@ -1,12 +1,38 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useContext, useEffect } from "react";
 import Container from "../../component/Container";
-import { Avatar, Col, Row } from "antd";
+import Loading from "../../component/Loading";
+import { Avatar, Col, Empty, Row } from "antd";
 import CarouselCustomize from "../../component/CarouselCustomize";
 import { listImage } from "./const";
 import { ShopOutlined } from "@ant-design/icons";
 import Search from "antd/es/input/Search";
+import { useQuery } from "@tanstack/react-query";
+import DashboradAPI from "./apis";
+import { AppContext } from "../../context/app-context";
+import { useNavigate } from "react-router-dom";
 
 const DashboardPage = () => {
+    const { data, isLoading } = useQuery({
+        queryKey: ['company'],
+        queryFn: DashboradAPI.getlistCompany,
+    })
+
+    const { company, setCompany } = useContext(AppContext)
+    const navigator = useNavigate()
+
+    useEffect(() => {
+        company && setCompany(null)
+    }, [])
+
+    const handlerSetCompany = (e) => {
+        console.log('handlerSetCompany');
+        setCompany(e)
+        navigator('/company')
+    }
+
+    if (isLoading) return (<Loading />)
+
+
     return (
         <Fragment>
             <div className="p-4">
@@ -26,83 +52,34 @@ const DashboardPage = () => {
                             <Search
                                 placeholder="Tìm kiếm"
                                 enterButton
-                                // onSearch={onSearch}
+                            // onSearch={onSearch}
                             />
                         </Col>
                     </Row>
 
                     <Row gutter={16}>
-                        <Col span={6}>
-                            <Container shadow={true}>
-                                <div className="flex gap-4">
-                                    <Avatar icon={<ShopOutlined />} size={40} />
-                                    <div className="flex flex-col gap-4">
-                                        <p className="text-blue-500 text-lg font-bold">Công ty cổ phần Cyfeer</p>
-                                        <div className="flex flex-col gap-1">
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Địa chỉ:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Điện thoại:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Email:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Mã số thuế:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Website:</span> <a href="" target="blank">https://a.com</a></p>
+                        {data?.length && data?.map(e => 
+                            <Col key={e.id} span={6} onClick={() => handlerSetCompany(e)}>
+                                <Container shadow={true} className="cursor-pointer">
+                                    <div className="flex gap-4">
+                                        <Avatar icon={<ShopOutlined />} size={40} />
+                                        <div className="flex flex-col gap-4">
+                                            <p className="text-blue-500 text-lg font-bold">{e.title}</p>
+                                            <div className="flex flex-col gap-1">
+                                                <p className="font-light text-sm text-gray-600"><span className="font-bold">Địa chỉ:</span> {e.address}</p>
+                                                <p className="font-light text-sm text-gray-600"><span className="font-bold">Điện thoại:</span> {e.phone}</p>
+                                                <p className="font-light text-sm text-gray-600"><span className="font-bold">Email:</span> {e.email}</p>
+                                                <p className="font-light text-sm text-gray-600"><span className="font-bold">Mã số thuế:</span> {e.tax_number}</p>
+                                                <p className="font-light text-sm text-gray-600"><span className="font-bold">Website:</span> <a href="" target="blank">{e.website}</a></p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Container>
-                        </Col>
-
-                        <Col span={6}>
-                            <Container shadow={true}>
-                                <div className="flex gap-4">
-                                    <Avatar icon={<ShopOutlined />} size={40} />
-                                    <div className="flex flex-col gap-4">
-                                        <p className="text-blue-500 text-lg font-bold">Công ty cổ phần Cyfeer</p>
-                                        <div className="flex flex-col gap-1">
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Địa chỉ:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Điện thoại:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Email:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Mã số thuế:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Website:</span> <a href="" target="blank">https://a.com</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Container>
-                        </Col>
-
-                        <Col span={6}>
-                            <Container shadow={true}>
-                                <div className="flex gap-4">
-                                    <Avatar icon={<ShopOutlined />} size={40} />
-                                    <div className="flex flex-col gap-4">
-                                        <p className="text-blue-500 text-lg font-bold">Công ty cổ phần Cyfeer</p>
-                                        <div className="flex flex-col gap-1">
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Địa chỉ:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Điện thoại:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Email:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Mã số thuế:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Website:</span> <a href="" target="blank">https://a.com</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Container>
-                        </Col>
-
-                        <Col span={6}>
-                            <Container shadow={true}>
-                                <div className="flex gap-4">
-                                    <Avatar icon={<ShopOutlined />} size={40} />
-                                    <div className="flex flex-col gap-4">
-                                        <p className="text-blue-500 text-lg font-bold">Công ty cổ phần Cyfeer</p>
-                                        <div className="flex flex-col gap-1">
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Địa chỉ:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Điện thoại:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Email:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Mã số thuế:</span> BBB</p>
-                                            <p className="font-light text-sm text-gray-600"><span className="font-bold">Website:</span> <a href="" target="blank">https://a.com</a></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </Container>
-                        </Col>
+                                </Container>
+                            </Col>
+                        )}
+                        {
+                            !data?.length && <Col flex={1}><Empty /></Col>
+                        }
                     </Row>
                 </Container>
             </div>

@@ -6,13 +6,13 @@ import LogoApp from "../../../component/LogoApp";
 import AuthAPI from "../apis";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
-import { LoadingContext } from "../../../context/app-context";
+import { AppContext } from "../../../context/app-context";
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [user, setCookieUser] = useCookies(['user']);
-    const { setIsLoading } = useContext(LoadingContext);
+    const { setIsLoading } = useContext(AppContext);
     const [isModalOpen, setIsModalOpen] = useState(false)
     const navigate = useNavigate();
 
