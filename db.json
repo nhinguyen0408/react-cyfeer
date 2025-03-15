@@ -1,6 +1,6 @@
 {
     "users": [
-      { "id": 1, "name": "Nhị Nguyễn", "avatar": "", "password": "12345678" }
+      { "id": 1, "name": "Nhị Nguyễn", "avatar": "", "password": "12345678", "email": "admin@admin.com" }
     ],
 
     "company": [

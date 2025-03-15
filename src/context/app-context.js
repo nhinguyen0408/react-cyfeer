@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
 
 // Tạo context
-const AppContext = createContext();
+export const AppContext = createContext();
 
-export default AppContext;
+export const LoadingContext = createContext();

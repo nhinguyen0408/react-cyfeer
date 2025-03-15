@@ -1,4 +1,4 @@
-import { Avatar, Collapse, Layout } from "antd"
+import { Avatar, Button, Collapse, Dropdown, Layout } from "antd"
 import { Content, Header } from "antd/es/layout/layout"
 import { Fragment } from "react"
 import { UserOutlined } from '@ant-design/icons';
@@ -6,21 +6,31 @@ import { UserOutlined } from '@ant-design/icons';
 import "../LayoutHome/index.scss"
 import LogoApp from "../../component/LogoApp";
 import Sider from "antd/es/layout/Sider";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 const LayoutHome = ({ children }) => {
+    const [, , removeCookie] = useCookies(['user']);
+    const navigator = useNavigate()
 
     const listRoute = [
-       {
-        key: 'company',
-        label: <p className="text-blue-800 text-base">Dashboard</p>,
-        children:
-            <div className="flex flex-col gap-2">  
-                <NavLink to="/company"><p className="text-base pl-8 py-2 text-black">Tổng công ty</p></NavLink>
-                <NavLink to="/project"><p className="text-base pl-8 py-2 text-black">Dự án</p></NavLink>
-            </div>
+        {
+            key: 'company',
+            label: <p className="text-blue-800 text-base">Dashboard</p>,
+            children:
+                <div className="flex flex-col gap-2">
+                    <NavLink to="/company"><p className="text-base pl-8 py-2 text-black">Tổng công ty</p></NavLink>
+                    <NavLink to="/project"><p className="text-base pl-8 py-2 text-black">Dự án</p></NavLink>
+                </div>
         },
     ]
+
+    const logout = () => {
+        removeCookie(['user'])
+        navigator('/login')
+    }
+
+    const items = [{key: 1, label:(<Button onClick={logout}>Đăng xuất</Button>)}]
 
     return (
         <Fragment>
@@ -31,16 +41,16 @@ const LayoutHome = ({ children }) => {
                     </div>
 
                     <div className="p-2">
-                    <Collapse
-                        headerPadding="2px"
-                        contentPadding="2px"
-                        headerBg="#FFF"
-                        collapsible="header"
-                        bordered={false}
-                        expandIconPosition="end"
-                        defaultActiveKey={['company']}
-                        items={listRoute}
-                    />
+                        <Collapse
+                            headerPadding="2px"
+                            contentPadding="2px"
+                            headerBg="#FFF"
+                            collapsible="header"
+                            bordered={false}
+                            expandIconPosition="end"
+                            defaultActiveKey={['company']}
+                            items={listRoute}
+                        />
                     </div>
                 </Sider>
                 <Layout>
@@ -54,7 +64,14 @@ const LayoutHome = ({ children }) => {
                                 <div className="h-[24px] w-[1px] bg-gray-400"></div>
                                 <div className="flex items-center gap-4">
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Flag_of_Vietnam.svg/1024px-Flag_of_Vietnam.svg.png" className="w-[30px] h-[18px]" alt="" />
-                                    <Avatar icon={<UserOutlined />} size={24} />
+                                    <Dropdown
+                                        menu={{
+                                            items
+                                        }}
+                                        placement="bottomRight"
+                                    >
+                                        <Avatar icon={<UserOutlined />} size={24} />
+                                    </Dropdown>
                                 </div>
                             </div>
                         </div>

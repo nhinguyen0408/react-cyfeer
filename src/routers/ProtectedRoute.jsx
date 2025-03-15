@@ -3,10 +3,9 @@ import { useCookies } from "react-cookie"
 import { Navigate } from "react-router-dom"
 
 const ProtectedRoute = ({children}) => {
-    const [token] = useCookies(['token'])
-
+    const [user] = useCookies(['user'])
     return (
-        token 
+        !user?.user?.email
         ? <Navigate to={"/login"} replace />
         : children
     )
