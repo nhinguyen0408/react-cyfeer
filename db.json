@@ -1,0 +1,105 @@
+{
+    "users": [
+      { "id": 1, "name": "Nhị Nguyễn", "avatar": "", "password": "12345678" }
+    ],
+
+    "company": [
+        { 
+            "id": 1, 
+            "title": "Công ty cổ phần Cyfeer", 
+            "avatar": "", 
+            "address": "Hà Nội",
+            "phone": "+84 987 666 666",
+            "email": "abcc@id.co",
+            "tax_number": "111112002444",
+            "website": "https://cyfeer.io",
+            "number_of_project": 3,
+            "number_of_employee": 123,
+            "rating": 4.5,
+            "must_revenue": 189980000,
+            "collected": 988277120,
+            "project_largest_scale_house": {
+                "name": "Vinhome ocean 6",
+                "number": 1000
+            },
+            "project_largest_scale_revenue": {
+                "name": "Ecopark 6",
+                "number": "13 tỉ"
+            },
+            "project_largest_number_employee": {
+                "name": "Ecopark 1",
+                "number": "1299"
+            },
+            "revenue_month": 13449988000,
+            "revenue_quarter": 43449988000,
+            "revenue_year": 933449988000
+        },
+
+        { 
+            "id": 2, 
+            "title": "Công ty cổ phần Greenland", 
+            "avatar": "", 
+            "address": "Hà Nội",
+            "phone": "+84 980 666 988",
+            "email": "greenland@id.co",
+            "tax_number": "98772611110",
+            "website": "https://greenland.co",
+            "number_of_project": 1,
+            "number_of_employee": 123,
+            "rating": 4.5,
+            "must_revenue": 87600000,
+            "collected": 760000220,
+            "project_largest_scale_house": {
+                "name": "Công viên thuỷ tinh",
+                "number": 1000
+            },
+            "project_largest_scale_revenue": {
+                "name": "Công viên thuỷ tinh",
+                "number": "~18 tỉ"
+            },
+            "project_largest_number_employee": {
+                "name": "Toà nhà Liên Hoà Tower",
+                "number": "999"
+            },
+            "revenue_month": 9888800080,
+            "revenue_quarter": 30000189000,
+            "revenue_year": 87766261600
+        }
+    ],
+
+    "project": [
+        {
+            "id": 1,
+            "company": 1,
+            "title": "VinhomePark 6",
+            "estimated_revenue": 3498812882,
+            "real_revenue": 1777626818,
+            "must_done_revenue": 288177222
+        },
+
+        {
+            "id": 2,
+            "company": 1,
+            "title": "Vinhome 3",
+            "estimated_revenue": 9281771222,
+            "real_revenue": 3498812882,
+            "must_done_revenue": 98281772720
+        },
+        {
+            "id": 3,
+            "company": 1,
+            "title": "Ocean Park 6",
+            "estimated_revenue": 12882712990,
+            "real_revenue": 99827476000,
+            "must_done_revenue": 82771240208
+        },
+        {
+            "id": 4,
+            "company": 2,
+            "title": "Công viên hồ điều hoà 6",
+            "estimated_revenue": 82777127620,
+            "real_revenue": 8727166255,
+            "must_done_revenue": 76261552
+        }
+    ]
+  }

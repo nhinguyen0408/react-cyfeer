@@ -7,21 +7,19 @@ import LayoutHome from "../layouts/LayoutHome"
 const AppRouter = () => {
     return (
         <Fragment>
-            <LayoutHome>
-                <Routes>
-                    {
-                        Object.values(AuthRouter).map(({ path, component: Component }) => (
-                            <Route
-                                path={path}
-                                key={path}
-                                element={
-                                    <ProtectedRoute children={<Component />} />
-                                }
-                            />
-                        ))
-                    }
-                </Routes>
-            </LayoutHome>
+            <Routes>
+                {
+                    Object.values(AuthRouter).map(({ path, component: Component }) => (
+                        <Route
+                            path={path}
+                            key={path}
+                            element={
+                                <ProtectedRoute children={<LayoutHome><Component /></LayoutHome>} />
+                            }
+                        />
+                    ))
+                }
+            </Routes>
             <Routes>
                 {
                     Object.values(NotAuthRouter).map(({ path, component: Component }) => (

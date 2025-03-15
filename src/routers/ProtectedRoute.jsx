@@ -6,10 +6,9 @@ const ProtectedRoute = ({children}) => {
     const [token] = useCookies(['token'])
 
     return (
-        // token 
-        // ? <Navigate to={"/login"} replace />
-        // : children
-        children
+        token 
+        ? <Navigate to={"/login"} replace />
+        : children
     )
 }
 
