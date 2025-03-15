@@ -1,0 +1,27 @@
+.layout-home {
+    height: 100vh;
+}
+.header {
+    background: #fff;
+    padding: 1em !important;
+    height: auto !important;
+}
+.content {
+    height: calc(100vh - header);
+    overflow: auto;
+}
+
+.sider {
+    background: #fff;
+    padding: 0 !important;
+
+    & .active {
+        background: #D5DFED;
+        border-radius: 8px;
+        
+        & p {
+            color: #294EB8 !important;
+        }
+    }
+}
+
