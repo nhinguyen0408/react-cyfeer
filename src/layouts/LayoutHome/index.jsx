@@ -1,7 +1,7 @@
 import { Avatar, Button, Collapse, Dropdown, Layout } from "antd"
 import { Content, Header } from "antd/es/layout/layout"
 import { Fragment, useContext, useRef } from "react"
-import { UserOutlined } from '@ant-design/icons';
+import { LeftOutlined, UserOutlined } from '@ant-design/icons';
 
 import "../LayoutHome/index.scss"
 import LogoApp from "../../component/LogoApp";
@@ -41,8 +41,11 @@ const LayoutHome = ({ children }) => {
             <Layout className="layout-home">
                 { company && 
                     <Sider width="240px" className="sider border-r border-gray-300 text-xl">
-                        <div className="flex justify-center items-center h-[69px] border-b border-gray-300">
-                            <p className="text-2xl font-bold">LOGO KH</p>
+                        <div className="flex justify-center items-center h-[93px] border-b border-gray-300">
+                            { company?.avatar
+                                ? <Avatar src={company?.avatar} size={80} />
+                                : <p className="text-2xl font-bold">LOGO KH</p>
+                            }
                         </div>
 
                         <div className="p-2">
@@ -60,11 +63,17 @@ const LayoutHome = ({ children }) => {
                     </Sider>
                 }
                 <Layout>
-                    <Header className="header border-b border-gray-300 relative">
+                    <Header className="header border-b border-gray-300 relative flex justify-between items-center">
                         <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]" >
                             <LogoApp />
                         </div>
-                        <div className="flex justify-end items-center p-2">
+                        { company &&
+                            <div>
+                                <Button icon={<LeftOutlined />} onClick={() => navigator(-1)}></Button>
+                            </div>
+                        }
+                        
+                        <div className="flex justify-end items-center p-2 flex-1">
                             <div className="flex gap-4">
                                 <span className="text-sm font-bold">Thứ 6, 01/11/2001 10: 36</span>
                                 <div className="h-[24px] w-[1px] bg-gray-400"></div>

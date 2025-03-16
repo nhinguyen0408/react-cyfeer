@@ -62,7 +62,10 @@ const DashboardPage = () => {
                             <Col key={e.id} span={6} onClick={() => handlerSetCompany(e)}>
                                 <Container shadow={true} className="cursor-pointer">
                                     <div className="flex gap-4">
-                                        <Avatar icon={<ShopOutlined />} size={40} />
+                                        { e?.avatar
+                                            ? <Avatar src={e.avatar} size={40} />
+                                            : <Avatar icon={<ShopOutlined />} size={40} />
+                                        }
                                         <div className="flex flex-col gap-4">
                                             <p className="text-blue-500 text-lg font-bold">{e.title}</p>
                                             <div className="flex flex-col gap-1">

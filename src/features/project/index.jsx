@@ -1,8 +1,26 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Container from "../../component/Container";
 import { Col, Pagination, Row, Select, Table } from "antd";
+import CompanyAPI from "../company/apis";
+import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { AppContext } from "../../context/app-context";
 
 const ProjectPage = () => {
+    const { company, projectCtx, setProjectCtx } = useContext(AppContext)
+    const { data, isError, error } = useQuery({
+        queryKey: ['project-of-company', company?.id],
+        queryFn: () => CompanyAPI.getProjectOfCompany({company: company?.id}),
+        enabled: !!company?.id
+    })
+
+    const navigator = useNavigate()
+
+    useEffect(() => {
+        projectCtx && setProjectCtx(null)
+        !company && navigator('/')
+    }, [])
+
     const columns = [
         {
             title: 'STT',
@@ -36,13 +54,19 @@ const ProjectPage = () => {
         },
     ]
 
-    const data = [
-        {key: 1, title: 'A', code: 'PACNNAU', contact_phone: '0982677122', contact_email: 'an@id.co', address: '9 Nguyễn Khoái, P1, Q4'},
-        {key: 2, title: 'A', code: 'PACNNAU', contact_phone: '0982677122', contact_email: 'an@id.co', address: '9 Nguyễn Khoái, P1, Q4'},
-        {key: 3, title: 'A', code: 'PACNNAU', contact_phone: '0982677122', contact_email: 'an@id.co', address: '9 Nguyễn Khoái, P1, Q4'},
-        {key: 4, title: 'A', code: 'PACNNAU', contact_phone: '0982677122', contact_email: 'an@id.co', address: '9 Nguyễn Khoái, P1, Q4'},
-        {key: 5, title: 'A', code: 'PACNNAU', contact_phone: '0982677122', contact_email: 'an@id.co', address: '9 Nguyễn Khoái, P1, Q4'},
-    ]
+    const dataTable = data?.map((item, index) => ({
+        ...item,
+        key: index, 
+    }));
+
+    const handleTableRow = (item) => {
+        setProjectCtx(item)
+        return navigator(`/project/${item?.id}`)
+    }
+
+    if (isError) {
+        console.error('Error:', error);
+    }
 
     return (
         <div className="p-4 flex flex-col gap-4">
@@ -67,7 +91,16 @@ const ProjectPage = () => {
                         </div>
                     </Col>
                 </Row>
-                <Table columns={columns} dataSource={data} pagination={false} />
+                <Table 
+                    columns={columns} 
+                    dataSource={dataTable} 
+                    pagination={false} 
+                    onRow={(record) => {
+                        return {
+                            onClick: () => handleTableRow(record)
+                        }
+                    }}
+                />
             </Container>
         </div>
     )

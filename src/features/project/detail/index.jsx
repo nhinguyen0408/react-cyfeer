@@ -1,8 +1,27 @@
 import { Col, Pagination, Radio, Row, Select, Table } from "antd";
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Container from "../../../component/Container";
+import { useQuery } from "@tanstack/react-query";
+import { AppContext } from "../../../context/app-context";
+import ProjectAPI from "../apis";
+import { useNavigate } from "react-router-dom";
+import { converNumber } from "../../../plugins/ulties";
 
 const ProjectDetailPage = () => {
+    const { company, projectCtx } = useContext(AppContext)
+    const { data, isError, error } = useQuery({
+        queryKey: ['project-of-company', projectCtx?.id],
+        queryFn: () => ProjectAPI.getProjectRevenue({ project: projectCtx?.id }),
+        enabled: !!company?.id
+    })
+
+    const navigator = useNavigate()
+
+    useEffect(() => {
+        if (!projectCtx) navigator('/project')
+        if (!company) navigator('/')
+    }, [])
+
     const columns = [
         {
             title: 'Dự thu',
@@ -20,71 +39,21 @@ const ProjectDetailPage = () => {
             key: 'note',
         },
     ]
-    const data = [
-        {
-            key: '1',
-            project: 'Vinhomes',
-            estimated_revenue: 3498812882,
-            real_revenue: 3498812882,
-            must_done_revenue: 3498812882,
-            note: 'Chuyển khoản',
-        },
 
-        {
-            key: '2',
-            project: 'Vinhomes',
-            estimated_revenue: 3498812882,
-            real_revenue: 3498812882,
-            must_done_revenue: 3498812882,
-            note: 'Chuyển khoản',
-        },
+    const dataTable = data?.map((item, index) => ({
+        ...item,
+        key: index,
+        estimated_revenue: converNumber(item.estimated_revenue),
+        real_revenue: converNumber(item.real_revenue),
+    }));
 
-        {
-            key: '3',
-            project: 'Vinhomes',
-            estimated_revenue: 3498812882,
-            real_revenue: 3498812882,
-            must_done_revenue: 3498812882,
-            note: 'Chuyển khoản',
-        },
 
-        {
-            key: '4',
-            project: 'Vinhomes',
-            estimated_revenue: 3498812882,
-            real_revenue: 3498812882,
-            must_done_revenue: 3498812882,
-            note: 'Chuyển khoản',
-        },
+    if (isError) {
+        console.error('Error:', error);
+    }
 
-        {
-            key: '5',
-            project: 'Vinhomes',
-            estimated_revenue: 3498812882,
-            real_revenue: 3498812882,
-            must_done_revenue: 3498812882,
-            note: 'Chuyển khoản',
-        },
-
-        {
-            key: '6',
-            project: 'Vinhomes',
-            estimated_revenue: 3498812882,
-            real_revenue: 3498812882,
-            must_done_revenue: 3498812882,
-            note: 'Chuyển khoản',
-        },
-
-        {
-            key: '7',
-            project: 'Vinhomes',
-            estimated_revenue: 3498812882,
-            real_revenue: 3498812882,
-            must_done_revenue: 3498812882,
-            note: 'Chuyển khoản',
-        },
-    ]
     return (
+        projectCtx &&
         <div className="p-4 flex flex-col gap-4">
             <Container className="flex flex-col gap-4">
                 <p className="text-lg font-medium">Tổng quan dự án</p>
@@ -93,7 +62,7 @@ const ProjectDetailPage = () => {
                         <Container className="!bg-[#E6E0FA]">
                             <div className="flex flex-col justify-between gap-4">
                                 <p>Số căn hộ</p>
-                                <p className="text-[#031343] font-bold text-lg">50</p>
+                                <p className="text-[#031343] font-bold text-lg">{converNumber(projectCtx.number_of_home)}</p>
                             </div>
                         </Container>
 
@@ -101,8 +70,8 @@ const ProjectDetailPage = () => {
                     <Col flex={1}>
                         <Container className="!bg-[#FEF2E6]">
                             <div className="flex flex-col justify-between gap-4">
-                                <p>Số cư dan</p>
-                                <p className="text-[#031343] font-bold text-lg">1200</p>
+                                <p>Số cư dân</p>
+                                <p className="text-[#031343] font-bold text-lg">{converNumber(projectCtx.number_of_people)}</p>
                             </div>
                         </Container>
                     </Col>
@@ -110,7 +79,7 @@ const ProjectDetailPage = () => {
                         <Container className="!bg-[#E6FBEA] relative">
                             <div className="flex flex-col justify-between gap-4">
                                 <p>Số nhân viên</p>
-                                <p className="text-[#031343] font-bold text-lg">29</p>
+                                <p className="text-[#031343] font-bold text-lg">{converNumber(projectCtx.number_of_employee)}</p>
                             </div>
                         </Container>
                     </Col>
@@ -118,7 +87,7 @@ const ProjectDetailPage = () => {
                         <Container className="!bg-[#F0F5FB]">
                             <div className="flex flex-col justify-between gap-4">
                                 <p>Số nhà cung cấp</p>
-                                <p className="text-[#031343] font-bold text-lg">23</p>
+                                <p className="text-[#031343] font-bold text-lg">{converNumber(projectCtx.number_of_supplier)}</p>
                             </div>
                         </Container>
                     </Col>
@@ -126,7 +95,7 @@ const ProjectDetailPage = () => {
                         <Container className="!bg-[#DFEBEB] relative">
                             <div className="flex flex-col justify-between gap-4">
                                 <p>Số xe máy</p>
-                                <p className="text-[#031343] font-bold text-lg">1200</p>
+                                <p className="text-[#031343] font-bold text-lg">{converNumber(projectCtx.number_of_motorbike)}</p>
                             </div>
                         </Container>
                     </Col>
@@ -134,7 +103,7 @@ const ProjectDetailPage = () => {
                         <Container className="!bg-[#BFCCF4] relative">
                             <div className="flex flex-col justify-between gap-4">
                                 <p>Số ô tô</p>
-                                <p className="text-[#031343] font-bold text-lg">1200</p>
+                                <p className="text-[#031343] font-bold text-lg">{converNumber(projectCtx.number_of_car)}</p>
                             </div>
                         </Container>
                     </Col>
@@ -166,7 +135,7 @@ const ProjectDetailPage = () => {
                         <Container className="!bg-[#F0F5FB]">
                             <div className="flex flex-col justify-between gap-4">
                                 <p>Trong tháng</p>
-                                <p className="text-[#031343] font-bold text-lg">50.000.000đ</p>
+                                <p className="text-[#031343] font-bold text-lg">{converNumber(projectCtx.revenue_month, 'đ')}</p>
                             </div>
                         </Container>
                     </Col>
@@ -174,7 +143,7 @@ const ProjectDetailPage = () => {
                         <Container className="!bg-[#F0F5FB]">
                             <div className="flex flex-col justify-between gap-4">
                                 <p>Trong quý</p>
-                                <p className="text-[#031343] font-bold text-lg">250.000.000đ</p>
+                                <p className="text-[#031343] font-bold text-lg">{converNumber(projectCtx.revenue_quarter, 'đ')}</p>
                             </div>
                         </Container>
                     </Col>
@@ -182,7 +151,7 @@ const ProjectDetailPage = () => {
                         <Container className="!bg-[#F0F5FB]">
                             <div className="flex flex-col justify-between gap-4">
                                 <p>Trong năm</p>
-                                <p className="text-[#031343] font-bold text-lg">1.050.000.000đ</p>
+                                <p className="text-[#031343] font-bold text-lg">{converNumber(projectCtx.revenue_year, 'đ')}</p>
                             </div>
                         </Container>
                     </Col>
@@ -210,7 +179,7 @@ const ProjectDetailPage = () => {
                     </Col>
                 </Row>
 
-                <Table columns={columns} dataSource={data} pagination={false} />
+                <Table columns={columns} dataSource={dataTable} pagination={false} />
             </Container>
         </div>
     )

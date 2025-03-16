@@ -7,10 +7,11 @@ import { AppContext } from './context/app-context'
 function App() {
   const [isLoading, setIsLoading] = useState(false)
   const [company, setCompany] = useState(null)
+  const [projectCtx, setProjectCtx] = useState(null)
 
   return (
     <Fragment>
-      <AppContext.Provider value={{isLoading, setIsLoading, company, setCompany}}>
+      <AppContext.Provider value={{isLoading, setIsLoading, company, setCompany, projectCtx, setProjectCtx}}>
         <AppRouter />
         { isLoading && <Loading /> } 
       </AppContext.Provider>
